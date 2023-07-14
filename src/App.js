@@ -16,12 +16,12 @@ const App = () => {
   };
 
   const handleVoiceRecognition = () => {
-    resetTranscript();
-    if (listening) {
-      stopListening();
-    } else {
-      startListening();
-    }
+    // resetTranscript();
+    // if (listening) {
+    //   stopListening();
+    // } else {
+    //   startListening();
+    // }
   };
 
   const handleCameraMode = () => {
