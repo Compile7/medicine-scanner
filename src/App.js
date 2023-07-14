@@ -1,37 +1,50 @@
-import React from 'react';
-import SearchBar from './SearchBar';
-//import { Configuration, OpenAIApi } from "openai";
+import React, { useState } from 'react';
+import { FaSearch, FaMicrophone, FaCamera } from 'react-icons/fa';
+import { useSpeechRecognition } from 'react-speech-recognition';
+import Webcam from 'react-webcam';
 
+const App = () => {
+  const [textInput, setTextInput] = useState('');
+  const [cameraMode, setCameraMode] = useState(false);
+  const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
-const MainPage = () => {
-  const handleSearch = async (searchTerm) => {
-    // console.log(import.meta.env.OPEN_API_KEY)
+  const handleTextChange = (event) => {
+    setTextInput(event.target.value);
+  };
 
-    // const configuration = new Configuration({
-    //   apiKey: import.meta.env.OPEN_API_KEY,
-    // });
-    // const openai = new OpenAIApi(configuration);
-    
-    // const response = await openai.createCompletion({
-    //   model: "text-davinci-003",
-    //   prompt: "share usage, side effects,  direction to use, Composition , Consume Type, medical practice about `searchTerm` medicine, share details in tabular format in hindi and english language",
-    //   temperature: 0,
-    //   max_tokens: 100,
-    //   top_p: 1.0,
-    //   frequency_penalty: 0.2,
-    //   presence_penalty: 0.0,
-    //   stop: ["\n"],
-    // });
-    // console.log("response", response);
-    console.log('Search term:', searchTerm);
+  const handleVoiceRecognition = () => {
+    resetTranscript();
+    if (listening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
+
+  const handleCameraMode = () => {
+    setCameraMode(!cameraMode);
+  };
+
+  const handleSearch = () => {
+    // Perform search logic here
+    console.log('Search:', textInput);
   };
 
   return (
-    <div>
-      <h1>Welcome to the Search App</h1>
-      <SearchBar onSearch={handleSearch} />
+    <div className="container">
+      <div className="search-bar">
+        <input type="text" value={textInput} onChange={handleTextChange} placeholder="Search..." />
+        <FaMicrophone className="icon" onClick={handleVoiceRecognition} />
+        <FaCamera className="icon" onClick={handleCameraMode} />
+        <FaSearch className="icon" onClick={handleSearch} />
+      </div>
+      {cameraMode && (
+        <div className="camera-container">
+          <Webcam />
+        </div>
+      )}
     </div>
   );
 };
 
-export default MainPage;
+export default App;
