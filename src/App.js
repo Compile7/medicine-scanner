@@ -9,7 +9,7 @@ const App = () => {
   const [textInput, setTextInput] = useState('');
   const [cameraMode, setCameraMode] = useState(false);
   const [language, setLanguage] = useState('english'); // Add language state 
-  const { transcript, resetTranscript, listening } = useSpeechRecognition();
+//  const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
   const handleTextChange = (event) => {
     setTextInput(event.target.value);
