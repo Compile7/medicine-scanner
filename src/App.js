@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSearch, FaMicrophone, FaCamera, FaVolumeUp, FaCopy } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-import { useSpeechRecognition } from 'react-speech-recognition';
+//import { useSpeechRecognition } from 'react-speech-recognition';
 import Webcam from 'react-webcam';
 
 import medicine_img from'./medicine.webp';
