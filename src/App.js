@@ -8,6 +8,7 @@ import medicine_img from'./medicine.webp';
 const App = () => {
   const [textInput, setTextInput] = useState('');
   const [cameraMode, setCameraMode] = useState(false);
+  const [language, setLanguage] = useState('english'); // Add language state 
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
   const handleTextChange = (event) => {
@@ -32,6 +33,9 @@ const App = () => {
     console.log('Search:', textInput);
   };
 
+  const toggleLanguage = () => {
+    setLanguage(language === 'english' ? 'hindi' : 'english');
+  };
   return (
     <div className="container">
       <div className="search-bar">
@@ -50,7 +54,9 @@ const App = () => {
               <FaVolumeUp />
               <FaCopy />
             </IconContext.Provider>
-            <button className="language-switcher">Hindi/English</button>
+            <button className={`language-switcher ${language}`} onClick={toggleLanguage}>
+              {language === 'english' ? 'English' : 'हिन्दी'}
+            </button>
           </div>
         <div className="information">
             <p>Information goes here...
@@ -63,7 +69,6 @@ const App = () => {
             Information goes here...
             Information goes here...
             Information goes here...Information goes here...
-            Information goes here...
             Information goes here...
             Information goes here...
             Information goes here...
