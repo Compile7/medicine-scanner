@@ -39,12 +39,8 @@ const App = () => {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `share usage, side effects,  direction to use, Composition , Consume Type, medical practice about ${textInput} medicine, share details in tabular format in hindi and english language`,
-      temperature: 0,
-      max_tokens: 100,
-      top_p: 1.0,
-      frequency_penalty: 0.2,
-      presence_penalty: 0.0,
-      stop: ["\n"],
+      temperature: 0.7,
+      max_tokens: 250,
     });
     console.log("response", response);
   };
