@@ -3,6 +3,7 @@ import { FaSearch, FaMicrophone, FaCamera, FaVolumeUp, FaCopy } from 'react-icon
 import { IconContext } from 'react-icons';
 //import { useSpeechRecognition } from 'react-speech-recognition';
 import Webcam from 'react-webcam';
+import { Configuration, OpenAIApi } from "openai";
 
 import medicine_img from'./medicine.webp';
 const App = () => {
@@ -28,9 +29,24 @@ const App = () => {
     setCameraMode(!cameraMode);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     // Perform search logic here
     console.log('Search:', textInput);
+    const configuration = new Configuration({
+      apiKey: ""//openai token
+    });
+    const openai = new OpenAIApi(configuration);
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `share usage, side effects,  direction to use, Composition , Consume Type, medical practice about ${textInput} medicine, share details in tabular format in hindi and english language`,
+      temperature: 0,
+      max_tokens: 100,
+      top_p: 1.0,
+      frequency_penalty: 0.2,
+      presence_penalty: 0.0,
+      stop: ["\n"],
+    });
+    console.log("response", response);
   };
 
   const toggleLanguage = () => {
