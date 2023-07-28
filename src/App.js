@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect  } from 'react';
 import { FaSearch, FaMicrophone, FaCamera, FaVolumeUp, FaCopy } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 //import { useSpeechRecognition } from 'react-speech-recognition';
@@ -16,6 +16,8 @@ const App = () => {
     setTextInput(event.target.value);
   };
 
+  const [apiResponse, setApiResponse] = useState('');
+
   const handleVoiceRecognition = () => {
     // resetTranscript();
     // if (listening) {
@@ -31,23 +33,27 @@ const App = () => {
 
   const handleSearch = async () => {
     // Perform search logic here
-    console.log('Search:', textInput);
+    let apiResponseText = 'processing ....';
+    setApiResponse(apiResponseText);
     const configuration = new Configuration({
       apiKey: ""//openai token
     });
     const openai = new OpenAIApi(configuration);
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `share usage, side effects,  direction to use, Composition , Consume Type, medical practice about ${textInput} medicine, share details in tabular format in hindi and english language`,
-      temperature: 0,
-      max_tokens: 100,
-      top_p: 1.0,
-      frequency_penalty: 0.2,
-      presence_penalty: 0.0,
-      stop: ["\n"],
+      prompt: `share usage, side effects,  direction to use, Composition , Consume Type, medical practice about ${textInput} medicine, share details in tabular format in ${language} language`,
+      temperature: 0.7,
+      max_tokens: 250,
     });
-    console.log("response", response);
+    apiResponseText = response?.data?.choices[0]?.text || '';
+    setApiResponse(apiResponseText);
   };
+
+  useEffect(() => {
+    if(textInput){
+      handleSearch(); // Call handleSearch whenever language state changes
+    }
+  }, [language]);
 
   const toggleLanguage = () => {
     setLanguage(language === 'english' ? 'hindi' : 'english');
@@ -75,29 +81,8 @@ const App = () => {
             </button>
           </div>
         <div className="information">
-            <p>Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
-    
-            Information goes here...
-            Information goes here...
-            Information goes here...
-            Information goes here...
+            <p>
+            {apiResponse || 'Information...'}
             </p>
           </div>
         </div>
